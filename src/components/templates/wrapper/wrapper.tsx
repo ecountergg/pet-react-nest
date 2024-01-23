@@ -27,6 +27,8 @@ export const Wrapper = ({ children }: Props) => {
       fail.statusCode === HttpStatusCode.Unauthorized &&
       fail.error === "Unauthorized"
     ) {
+      localStorage.removeItem("authToken");
+
       navigate("/", {
         replace: true,
       });
@@ -48,6 +50,16 @@ export const Wrapper = ({ children }: Props) => {
       const errorResponse: ErrorResponse = error.response
         ? error.response.data
         : null;
+
+      if (
+        fail.statusCode === HttpStatusCode.Unauthorized &&
+        fail.error === "Unauthorized"
+      ) {
+        localStorage.removeItem("authToken");
+        navigate("/", {
+          replace: true,
+        });
+      }
 
       toast({
         variant: "destructive",
