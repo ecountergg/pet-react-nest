@@ -1,9 +1,14 @@
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import { HttpStatusCode } from "axios";
+import { useNavigate } from "react-router-dom";
+import { useEffect, useState } from "react";
+import { Provider } from "react-redux";
 
 import { useToast } from "@/components/atoms/toast/use-toast";
 import { $http } from "@/lib/http";
 import { ErrorResponse } from "@/types/response.type";
 import { Toaster } from "@/components/atoms/toast/toaster";
+import { store } from "@/stores/index.store";
 
 const queryClient = new QueryClient();
 
@@ -13,6 +18,23 @@ type Props = {
 
 export const Wrapper = ({ children }: Props) => {
   const { toast } = useToast();
+  const navigate = useNavigate();
+  const [fail, setFail] = useState<ErrorResponse>({
+    error: null,
+    statusCode: null,
+    message: null,
+  });
+
+  useEffect(() => {
+    if (
+      fail.statusCode === HttpStatusCode.Unauthorized &&
+      fail.error === "Unauthorized"
+    ) {
+      navigate("/", {
+        replace: true,
+      });
+    }
+  }, [fail, navigate]);
 
   $http.interceptors.request.use((config) => {
     const authToken = localStorage.getItem("authToken");
@@ -32,17 +54,21 @@ export const Wrapper = ({ children }: Props) => {
 
       toast({
         variant: "destructive",
-        title: errorResponse.error,
+        title: errorResponse.error ?? "",
         description: errorResponse.message,
       });
+      setFail(errorResponse);
+
       return Promise.reject(error);
     },
   );
 
   return (
-    <QueryClientProvider client={queryClient}>
-      {children}
-      <Toaster />
-    </QueryClientProvider>
+    <Provider store={store}>
+      <QueryClientProvider client={queryClient}>
+        {children}
+        <Toaster />
+      </QueryClientProvider>
+    </Provider>
   );
 };

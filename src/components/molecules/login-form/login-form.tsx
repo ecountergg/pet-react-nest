@@ -14,7 +14,7 @@ import {
 } from "@/components/atoms/card/card";
 import { Input } from "@/components/atoms/input/input";
 import { ILoginPayload } from "@/services/auth/login.post";
-import { useLoginPost } from "@/composables/auth/mutations/use-login-post.mutation";
+import { useLoginPost } from "@/hooks/auth/mutations/use-login-post.mutation";
 import { useToast } from "@/components/atoms/toast/use-toast";
 
 interface ILoginFormProps {
@@ -38,7 +38,7 @@ export const LoginForm = ({ className }: ILoginFormProps) => {
   const toast = useToast();
 
   const { mutate, isPending } = useLoginPost({
-    onSuccess: () => {
+    onSuccess: (response) => {
       navigate(
         {
           pathname: "admin",
@@ -47,6 +47,8 @@ export const LoginForm = ({ className }: ILoginFormProps) => {
           replace: true,
         },
       );
+
+      localStorage.setItem("authToken", response.data.accessToken);
 
       toast.toast({
         title: "Welcome!",
