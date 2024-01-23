@@ -1,4 +1,3 @@
-import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { HttpStatusCode } from "axios";
 import { useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
@@ -9,8 +8,6 @@ import { $http } from "@/lib/http";
 import { ErrorResponse } from "@/types/response.type";
 import { Toaster } from "@/components/atoms/toast/toaster";
 import { store } from "@/stores/index.store";
-
-const queryClient = new QueryClient();
 
 type Props = {
   children: string | JSX.Element | JSX.Element[];
@@ -65,10 +62,8 @@ export const Wrapper = ({ children }: Props) => {
 
   return (
     <Provider store={store}>
-      <QueryClientProvider client={queryClient}>
-        {children}
-        <Toaster />
-      </QueryClientProvider>
+      {children}
+      <Toaster />
     </Provider>
   );
 };

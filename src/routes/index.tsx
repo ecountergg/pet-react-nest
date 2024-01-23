@@ -11,7 +11,7 @@ const APP_ROUTES = [
       </UnAuthGuard>
     ),
   },
-  ADMIN_ROUTES,
+  ...ADMIN_ROUTES,
 ];
 
 export default APP_ROUTES;
