@@ -7,7 +7,7 @@ export type GenericResponse<T> = {
 };
 
 export type ErrorResponse = {
-  message: string;
-  error: string;
-  statusCode: HttpStatusCode;
+  message: string | null;
+  error: string | null;
+  statusCode: HttpStatusCode | null;
 };

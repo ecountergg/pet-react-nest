@@ -1,9 +1,9 @@
-import { Wrapper } from "@/components/templates/wrapper/wrapper";
+import { Admin } from "@/components/templates/admin/admin";
 
 export const AdminIndex = () => {
   return (
-    <Wrapper>
+    <Admin>
       <h1>Admin Index</h1>
-    </Wrapper>
+    </Admin>
   );
 };
