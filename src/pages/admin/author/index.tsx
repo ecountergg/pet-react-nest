@@ -1,27 +1,62 @@
+import { ColumnDef } from "@tanstack/react-table";
+import { MoreHorizontal } from "lucide-react";
+
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuTrigger,
+} from "@/components/atoms/dropdown-menu/dropdown-menu";
 import { Button } from "@/components/atoms/button/button";
-import {
-  Pagination,
-  PaginationContent,
-  PaginationEllipsis,
-  PaginationItem,
-  PaginationLink,
-  PaginationNext,
-  PaginationPrevious,
-} from "@/components/atoms/pagination/pagination";
-import {
-  Table,
-  TableBody,
-  TableCell,
-  TableHead,
-  TableHeader,
-  TableRow,
-} from "@/components/atoms/table/table";
 import { Admin } from "@/components/templates/admin/admin";
 import { Container } from "@/components/templates/container/container";
 import { useAuthorGet } from "@/hooks/author/queries/use-author-get.query";
+import { IAuthorResponse } from "@/services/author/list.get";
+import { DataTable } from "@/components/atoms/data-table/data-table";
+import { PaginationMetaResponse } from "@/types/response.type";
+
+const columns: ColumnDef<IAuthorResponse>[] = [
+  {
+    accessorKey: "name",
+    header: "Name",
+  },
+  {
+    accessorKey: "created_at",
+    header: "Created At",
+  },
+  {
+    accessorKey: "updated_at",
+    header: "Updated At",
+  },
+  {
+    accessorKey: "deleted_at",
+    header: "Deleted At",
+  },
+  {
+    id: "actions",
+    cell: () => {
+      return (
+        <DropdownMenu>
+          <DropdownMenuTrigger asChild>
+            <Button variant="ghost" className="h-8 w-8 p-0">
+              <span className="sr-only">Open menu</span>
+              <MoreHorizontal className="h-4 w-4" />
+            </Button>
+          </DropdownMenuTrigger>
+          <DropdownMenuContent align="end">
+            <DropdownMenuLabel>Actions</DropdownMenuLabel>
+            <DropdownMenuItem>Delete</DropdownMenuItem>
+            <DropdownMenuItem>Update</DropdownMenuItem>
+          </DropdownMenuContent>
+        </DropdownMenu>
+      );
+    },
+  },
+];
 
 export function AdminAuthorIndex() {
-  const { data: authors, isPending: isPendingAuthor } = useAuthorGet();
+  const { setFilter, data: authors } = useAuthorGet();
 
   return (
     <Admin>
@@ -31,53 +66,12 @@ export function AdminAuthorIndex() {
           <Button variant={"secondary"}>Add Author</Button>
         </div>
 
-        <Table>
-          <TableHeader>
-            <TableRow>
-              <TableHead>Author Name</TableHead>
-              <TableHead>Created At</TableHead>
-              <TableHead>Updated At</TableHead>
-              <TableHead>Deleted At</TableHead>
-            </TableRow>
-          </TableHeader>
-          <TableBody>
-            {!isPendingAuthor &&
-              authors?.data.data.map((author) => (
-                <TableRow key={author.id}>
-                  <TableCell className="font-lg font-medium">
-                    {author.name}
-                  </TableCell>
-                  <TableCell>{author.created_at}</TableCell>
-                  <TableCell>{author.updated_at}</TableCell>
-                  <TableCell>{author.deleted_at ?? "-"}</TableCell>
-                </TableRow>
-              ))}
-          </TableBody>
-        </Table>
-        <Pagination>
-          <PaginationContent>
-            <PaginationItem>
-              <PaginationPrevious href="#" />
-            </PaginationItem>
-            <PaginationItem>
-              <PaginationLink href="#">1</PaginationLink>
-            </PaginationItem>
-            <PaginationItem>
-              <PaginationLink href="#" isActive>
-                2
-              </PaginationLink>
-            </PaginationItem>
-            <PaginationItem>
-              <PaginationLink href="#">3</PaginationLink>
-            </PaginationItem>
-            <PaginationItem>
-              <PaginationEllipsis />
-            </PaginationItem>
-            <PaginationItem>
-              <PaginationNext href="#" />
-            </PaginationItem>
-          </PaginationContent>
-        </Pagination>
+        <DataTable
+          columns={columns}
+          data={authors?.data.data ?? []}
+          meta={authors?.data.meta as PaginationMetaResponse}
+          setFilter={setFilter}
+        />
       </Container>
     </Admin>
   );

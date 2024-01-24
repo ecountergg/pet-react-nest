@@ -32,7 +32,7 @@ const TableBody = React.forwardRef<
     ref={ref}
     className={cn("[&_tr:last-child]:border-0", className)}
     {...props}
-  ></tbody>
+  />
 ));
 TableBody.displayName = "TableBody";
 

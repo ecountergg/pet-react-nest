@@ -11,8 +11,8 @@ import { useState } from "react";
 
 export const useAuthorGet = () => {
   const [filter, setFilter] = useState<AuthorFilter>({
-    page: 1,
-    limit: 10,
+    page: 0,
+    limit: 1,
   });
 
   return {
