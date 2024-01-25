@@ -1,4 +1,5 @@
-import { useQuery } from "@tanstack/react-query";
+import { useState } from "react";
+import { UseQueryOptions, useQuery } from "@tanstack/react-query";
 
 import { AUTHOR_KEY } from "./query-key.query";
 import { GenericResponse, PaginationResponse } from "@/types/response.type";
@@ -7,12 +8,16 @@ import {
   AuthorFilter,
   authorGet,
 } from "@/services/author/list.get";
-import { useState } from "react";
 
-export const useAuthorGet = () => {
+export const useAuthorGet = (
+  options?: Omit<
+    UseQueryOptions<GenericResponse<PaginationResponse<IAuthorResponse>>>,
+    "queryKey" | "queryFn"
+  >,
+) => {
   const [filter, setFilter] = useState<AuthorFilter>({
     page: 0,
-    limit: 1,
+    limit: 10,
   });
 
   return {
@@ -21,6 +26,7 @@ export const useAuthorGet = () => {
     ...useQuery<GenericResponse<PaginationResponse<IAuthorResponse>>>({
       queryKey: AUTHOR_KEY.list(filter),
       queryFn: () => authorGet(filter),
+      ...options,
     }),
   };
 };

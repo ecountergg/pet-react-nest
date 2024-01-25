@@ -102,7 +102,7 @@ export const DataTable = <TData, TValue>({
 }: IDataTableProps<TData, TValue>) => {
   const [{ pageIndex, pageSize }, setPagination] = useState<PaginationState>({
     pageIndex: 0,
-    pageSize: 1,
+    pageSize: 10,
   });
   const pagination = useMemo(
     () => ({
@@ -190,7 +190,6 @@ export const DataTable = <TData, TValue>({
               href="#"
               onClick={() => {
                 table.previousPage();
-                console.log(table.getCanPreviousPage());
               }}
               disabled={!table.getCanPreviousPage()}
             />
@@ -206,7 +205,6 @@ export const DataTable = <TData, TValue>({
               href="#"
               onClick={() => {
                 table.nextPage();
-                console.log(table.getCanNextPage());
               }}
               disabled={!table.getCanNextPage()}
             />

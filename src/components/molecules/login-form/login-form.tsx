@@ -95,7 +95,9 @@ export const LoginForm = ({ className }: ILoginFormProps) => {
         </div>
       </CardContent>
       <CardFooter className="flex justify-between">
-        <Button variant="outline">Cancel</Button>
+        <Button type="reset" variant="outline">
+          Cancel
+        </Button>
         <Button disabled={isPending} loading={isPending}>
           Sign In
         </Button>
