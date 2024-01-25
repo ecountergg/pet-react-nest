@@ -257,6 +257,7 @@ export const DataTable = <TData, TValue>({
           </PaginationItem>
         </PaginationContent>
         <Select
+          name="limit"
           value={`${pageSize}`}
           onValueChange={(e) => {
             setPagination({

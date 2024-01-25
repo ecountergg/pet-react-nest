@@ -3,8 +3,41 @@ import * as SelectPrimitive from "@radix-ui/react-select";
 import { Check, ChevronDown, ChevronUp } from "lucide-react";
 
 import { cn } from "@/lib/cva.utils";
+import {
+  FieldPath,
+  FieldValues,
+  UseControllerProps,
+  useController,
+} from "react-hook-form";
 
 const Select = SelectPrimitive.Root;
+
+const FormSelect = <
+  TFieldValues extends FieldValues = FieldValues,
+  TName extends FieldPath<TFieldValues> = FieldPath<TFieldValues>,
+>({
+  children,
+  control,
+  name,
+  ...props
+}: UseControllerProps<TFieldValues, TName> &
+  React.ComponentPropsWithoutRef<typeof SelectPrimitive.Root>) => {
+  const {
+    field: { value, onChange: onChange },
+    fieldState,
+  } = useController({
+    name,
+    control,
+  });
+  return (
+    <SelectPrimitive.Root {...props} value={value} onValueChange={onChange}>
+      {children}
+      {fieldState.error && (
+        <small className="text-red-700">{fieldState.error.message}</small>
+      )}
+    </SelectPrimitive.Root>
+  );
+};
 
 const SelectGroup = SelectPrimitive.Group;
 
@@ -145,6 +178,7 @@ const SelectSeparator = React.forwardRef<
 SelectSeparator.displayName = SelectPrimitive.Separator.displayName;
 
 export {
+  FormSelect,
   Select,
   SelectGroup,
   SelectValue,

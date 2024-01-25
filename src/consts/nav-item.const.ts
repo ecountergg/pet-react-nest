@@ -1,4 +1,10 @@
-import { LayoutDashboard, ListTodo, Users } from "lucide-react";
+import {
+  Book,
+  LayoutDashboard,
+  ListTodo,
+  PersonStanding,
+  Users,
+} from "lucide-react";
 
 import { NavItem } from "@/types/nav-item.type";
 
@@ -24,9 +30,15 @@ export const NAV_ITEMS: NavItem[] = [
     children: [
       {
         title: "Author",
-        icon: ListTodo,
+        icon: PersonStanding,
         color: "text-red-500",
         href: "/admin/master-data/author",
+      },
+      {
+        title: "Book",
+        icon: Book,
+        color: "text-green-500",
+        href: "/admin/master-data/book",
       },
     ],
   },
