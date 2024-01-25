@@ -3,6 +3,7 @@
 import {
   ColumnDef,
   PaginationState,
+  SortingState,
   flexRender,
   getCoreRowModel,
   useReactTable,
@@ -27,14 +28,21 @@ import {
 } from "@/components/atoms/pagination/pagination";
 import { useEffect, useMemo, useState } from "react";
 import { PaginationMetaResponse } from "@/types/response.type";
-import { PaginationFilter } from "@/types/request.type";
-
-interface IDataTableProps<TData, TValue> {
-  columns: ColumnDef<TData, TValue>[];
-  data: TData[];
-  meta: PaginationMetaResponse;
-  setFilter: React.Dispatch<React.SetStateAction<PaginationFilter>>;
-}
+import {
+  EnumSortDirection,
+  PaginationFilter,
+  SORT_DIRECTION,
+} from "@/types/request.type";
+import { ArrowDown, ArrowUp } from "lucide-react";
+import { LIMIT, LIMITS } from "@/consts/pagination.const";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/atoms/select/select";
+import { Card } from "../card/card";
 
 interface IPaginationDataTableProps {
   pageCount: number;
@@ -43,7 +51,7 @@ interface IPaginationDataTableProps {
   setPagination: React.Dispatch<React.SetStateAction<PaginationState>>;
 }
 
-export const PaginationDataTable = ({
+export const PaginationPages = ({
   pageCount,
   pageIndex,
   pageSize,
@@ -94,16 +102,28 @@ export const PaginationDataTable = ({
   });
 };
 
+interface IDataTableProps<TData, TValue> {
+  columns: ColumnDef<TData, TValue>[];
+  data: TData[];
+  meta: PaginationMetaResponse;
+  setFilter: React.Dispatch<React.SetStateAction<PaginationFilter>>;
+}
+
 export const DataTable = <TData, TValue>({
   columns,
   data,
   meta,
   setFilter,
 }: IDataTableProps<TData, TValue>) => {
+  const memoizedData = useMemo(() => data, [data]);
+  const memoizedColumns = useMemo(() => columns, [columns]);
+
   const [{ pageIndex, pageSize }, setPagination] = useState<PaginationState>({
     pageIndex: 0,
-    pageSize: 10,
+    pageSize: LIMIT,
   });
+  const [sorting, setSorting] = useState<SortingState>([]);
+
   const pagination = useMemo(
     () => ({
       pageIndex,
@@ -111,29 +131,42 @@ export const DataTable = <TData, TValue>({
     }),
     [pageIndex, pageSize],
   );
-  const defaultData = useMemo(() => [], []);
   useEffect(() => {
+    const sortingAtom = sorting[0];
+    let order: EnumSortDirection | undefined;
+
+    if (sortingAtom) {
+      order = sortingAtom.desc ? SORT_DIRECTION.DESC : SORT_DIRECTION.ASC;
+    } else {
+      order = undefined;
+    }
+
     setFilter({
       page: pageIndex,
       limit: pageSize,
+      order: order,
+      orderBy: sortingAtom ? sortingAtom.id : undefined,
     });
-  }, [pageIndex, pageSize, setFilter]);
+  }, [pageIndex, pageSize, sorting, setFilter, setSorting]);
 
   const table = useReactTable({
-    data: data ?? defaultData,
-    columns,
+    data: data ?? memoizedData,
+    columns: memoizedColumns,
     pageCount: meta?.pageCount ?? -1,
     state: {
       pagination,
+      sorting,
     },
+    manualSorting: true,
+    onSortingChange: setSorting,
+    manualPagination: true,
     onPaginationChange: setPagination,
     getCoreRowModel: getCoreRowModel(),
-    manualPagination: true,
   });
 
   return (
     <div>
-      <div className="rounded-md border">
+      <Card className="mt-4">
         <Table>
           <TableHeader>
             {table.getHeaderGroups().map((headerGroup) => (
@@ -141,12 +174,25 @@ export const DataTable = <TData, TValue>({
                 {headerGroup.headers.map((header) => {
                   return (
                     <TableHead key={header.id}>
-                      {header.isPlaceholder
-                        ? null
-                        : flexRender(
+                      {header.isPlaceholder ? null : (
+                        <div
+                          {...{
+                            className: header.column.getCanSort()
+                              ? "select-none cursor-pointer flex items-center gap-1"
+                              : "",
+                            onClick: header.column.getToggleSortingHandler(),
+                          }}
+                        >
+                          {flexRender(
                             header.column.columnDef.header,
                             header.getContext(),
                           )}
+                          {{
+                            asc: <ArrowDown className="h-4 w-4 " />,
+                            desc: <ArrowUp className="h-4 w-4" />,
+                          }[header.column.getIsSorted() as string] ?? null}
+                        </div>
+                      )}
                     </TableHead>
                   );
                 })}
@@ -182,7 +228,7 @@ export const DataTable = <TData, TValue>({
             )}
           </TableBody>
         </Table>
-      </div>
+      </Card>
       <Pagination className="mt-4">
         <PaginationContent>
           <PaginationItem>
@@ -194,7 +240,7 @@ export const DataTable = <TData, TValue>({
               disabled={!table.getCanPreviousPage()}
             />
           </PaginationItem>
-          <PaginationDataTable
+          <PaginationPages
             pageCount={meta?.pageCount}
             pageIndex={pageIndex}
             pageSize={pageSize}
@@ -210,6 +256,26 @@ export const DataTable = <TData, TValue>({
             />
           </PaginationItem>
         </PaginationContent>
+        <Select
+          value={`${pageSize}`}
+          onValueChange={(e) => {
+            setPagination({
+              pageIndex: 0,
+              pageSize: parseInt(e),
+            });
+          }}
+        >
+          <SelectTrigger className="w-[75px]">
+            <SelectValue placeholder="Limit" />
+          </SelectTrigger>
+          <SelectContent>
+            {LIMITS.map((limit) => (
+              <SelectItem key={limit} value={`${limit}`}>
+                {limit}
+              </SelectItem>
+            ))}
+          </SelectContent>
+        </Select>
       </Pagination>
     </div>
   );

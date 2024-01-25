@@ -1,6 +1,7 @@
 import { ColumnDef } from "@tanstack/react-table";
-// import { MoreHorizontal } from "lucide-react";
+import { ChangeEvent, useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
+// import { MoreHorizontal } from "lucide-react";
 
 // import {
 //   DropdownMenu,
@@ -24,6 +25,8 @@ import { useAuthorGet } from "@/hooks/author/queries/use-author-get.query";
 import { IAuthorResponse } from "@/services/author/list.get";
 import { DataTable } from "@/components/atoms/data-table/data-table";
 import { PaginationMetaResponse } from "@/types/response.type";
+import { Input } from "@/components/atoms/input/input";
+import { useDebounce } from "@/hooks";
 
 const columns: ColumnDef<IAuthorResponse>[] = [
   {
@@ -81,7 +84,21 @@ const columns: ColumnDef<IAuthorResponse>[] = [
 
 export function AdminAuthorIndex() {
   const navigate = useNavigate();
-  const { setFilter, data: authors } = useAuthorGet();
+  const { filter, setFilter, data: authors } = useAuthorGet();
+  const [value, setValue] = useState<string | undefined>(undefined);
+  const debouncedValue = useDebounce<string>(value!, 500);
+
+  const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
+    setValue(event.target.value);
+  };
+
+  useEffect(() => {
+    setFilter({
+      ...filter,
+      page: 0,
+      name: debouncedValue ? debouncedValue : undefined,
+    });
+  }, [debouncedValue, filter, setFilter]);
 
   return (
     <Admin>
@@ -108,7 +125,14 @@ export function AdminAuthorIndex() {
             Add Author
           </Button>
         </div>
-
+        <Input
+          id="name"
+          name="name"
+          className="w-[300px]"
+          autoComplete="off"
+          placeholder="Search name"
+          onChange={handleChange}
+        />
         <DataTable
           columns={columns}
           data={authors?.data.data ?? []}

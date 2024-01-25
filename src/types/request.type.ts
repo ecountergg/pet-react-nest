@@ -1,9 +1,9 @@
-export const PAGINATION_DIRECTION = {
+export const SORT_DIRECTION = {
   ASC: "ASC",
   DESC: "DESC",
 } as const;
-export type EnumPaginationDirection =
-  (typeof PAGINATION_DIRECTION)[keyof typeof PAGINATION_DIRECTION];
+export type EnumSortDirection =
+  (typeof SORT_DIRECTION)[keyof typeof SORT_DIRECTION];
 
 export type PaginationFilter<TFilter = object> = {
   [Key in keyof TFilter]: TFilter[Key];
@@ -11,5 +11,5 @@ export type PaginationFilter<TFilter = object> = {
   page?: number;
   limit?: number;
   orderBy?: string;
-  order?: EnumPaginationDirection;
+  order?: EnumSortDirection;
 };

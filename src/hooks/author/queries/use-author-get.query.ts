@@ -8,6 +8,7 @@ import {
   AuthorFilter,
   authorGet,
 } from "@/services/author/list.get";
+import { LIMIT } from "@/consts/pagination.const";
 
 export const useAuthorGet = (
   options?: Omit<
@@ -17,7 +18,7 @@ export const useAuthorGet = (
 ) => {
   const [filter, setFilter] = useState<AuthorFilter>({
     page: 0,
-    limit: 10,
+    limit: LIMIT,
   });
 
   return {
