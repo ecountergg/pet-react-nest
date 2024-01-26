@@ -1,5 +1,10 @@
 import * as React from "react";
-import { FieldErrors } from "react-hook-form";
+import {
+  FieldPath,
+  FieldValues,
+  UseControllerProps,
+  useController,
+} from "react-hook-form";
 
 import { cn } from "@/lib/cva.utils";
 import { VariantProps, cva } from "class-variance-authority";
@@ -16,12 +21,10 @@ const inputVariants = cva(
 
 export interface IInputProps
   extends React.InputHTMLAttributes<HTMLInputElement>,
-    VariantProps<typeof inputVariants> {
-  errors?: FieldErrors;
-}
+    VariantProps<typeof inputVariants> {}
 
 const Input = React.forwardRef<HTMLInputElement, IInputProps>(
-  ({ className, type, errors, ...props }, ref) => {
+  ({ className, type, ...props }, ref) => {
     return (
       <>
         <input
@@ -30,14 +33,46 @@ const Input = React.forwardRef<HTMLInputElement, IInputProps>(
           ref={ref}
           {...props}
         />
-        {errors && (
-          <small className="text-red-700">
-            {errors[props.name!]?.message?.toString()}
-          </small>
-        )}
       </>
     );
   },
 );
 
-export { Input };
+const FormInput = <
+  TFieldValues extends FieldValues = FieldValues,
+  TName extends FieldPath<TFieldValues> = FieldPath<TFieldValues>,
+>({
+  type,
+  control,
+  name,
+  className,
+  defaultValue,
+  ...props
+}: UseControllerProps<TFieldValues, TName> & IInputProps) => {
+  const {
+    field: { value, onChange: onChange },
+    fieldState,
+  } = useController({
+    name,
+    control,
+    // @ts-expect-error
+    defaultValue: defaultValue ?? "",
+  });
+  return (
+    <>
+      <input
+        {...props}
+        type={type}
+        className={cn(inputVariants({ className }))}
+        name={name}
+        value={value}
+        onChange={(e) => onChange(e.target.value)}
+      />
+      {fieldState.error && (
+        <small className="text-red-700">{fieldState.error?.message}</small>
+      )}
+    </>
+  );
+};
+
+export { Input, FormInput };

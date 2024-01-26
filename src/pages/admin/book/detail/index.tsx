@@ -83,8 +83,10 @@ export const AdminBookDetail = () => {
               <div className="block">
                 <p className="font-semibold">Categories:</p>
                 <div className="flex gap-x-2">
-                  {bookDetail?.data.categories.map((category) => {
-                    return <Badge>{category.name}</Badge>;
+                  {bookDetail?.data.categories.map((category, index) => {
+                    return (
+                      <Badge key={`category-${index}`}>{category.name}</Badge>
+                    );
                   })}
                 </div>{" "}
               </div>

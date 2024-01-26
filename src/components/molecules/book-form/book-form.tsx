@@ -4,7 +4,7 @@ import { yupResolver } from "@hookform/resolvers/yup";
 
 import { Button } from "@/components/atoms/button/button";
 import { CardContent, CardFooter } from "@/components/atoms/card/card";
-import { Input } from "@/components/atoms/input/input";
+import { FormInput } from "@/components/atoms/input/input";
 import { Label } from "@/components/atoms/label/label";
 import { IBookPayload } from "@/services/book/create.post";
 import { useBookPost } from "@/hooks/book/mutations/use-book-post.mutation";
@@ -42,13 +42,9 @@ const schema = yup.object().shape({
 
 export const BookForm = () => {
   const { id } = useParams();
-  const {
-    register,
-    handleSubmit,
-    setValue,
-    control,
-    formState: { errors },
-  } = useForm<yup.InferType<typeof schema>>({
+  const { handleSubmit, setValue, control } = useForm<
+    yup.InferType<typeof schema>
+  >({
     resolver: yupResolver(schema),
   });
   const navigate = useNavigate();
@@ -95,7 +91,7 @@ export const BookForm = () => {
     setValue("author_id", bookDetail?.data.author.id ?? "");
     setValue("publisher_id", bookDetail?.data.publisher.id ?? "");
     setValue("category_ids", categories ?? []);
-  }, [bookDetail, setValue]);
+  }, [bookDetail]);
 
   const onSubmit = (payload: yup.InferType<typeof schema>) => {
     const categoryIds = payload.category_ids.map((category) => category.value);
@@ -119,11 +115,11 @@ export const BookForm = () => {
         <div className="grid w-full items-center gap-4">
           <div className="flex flex-col space-y-1.5">
             <Label htmlFor="name">Name</Label>
-            <Input
-              {...register("name")}
+            <FormInput
               id="name"
+              name="name"
               placeholder="Book name"
-              errors={errors}
+              control={control}
               autoComplete="off"
             />
           </div>

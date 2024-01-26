@@ -12,7 +12,7 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/atoms/card/card";
-import { Input } from "@/components/atoms/input/input";
+import { FormInput } from "@/components/atoms/input/input";
 import { ILoginPayload } from "@/services/auth/login.post";
 import { useLoginPost } from "@/hooks/auth/mutations/use-login-post.mutation";
 import { useToast } from "@/components/atoms/toast/use-toast";
@@ -27,11 +27,7 @@ const schema = yup.object().shape({
 });
 
 export const LoginForm = ({ className }: ILoginFormProps) => {
-  const {
-    register,
-    handleSubmit,
-    formState: { errors },
-  } = useForm<ILoginPayload>({
+  const { handleSubmit, control } = useForm<ILoginPayload>({
     resolver: yupResolver(schema),
   });
   const navigate = useNavigate();
@@ -72,24 +68,22 @@ export const LoginForm = ({ className }: ILoginFormProps) => {
         <div className="grid w-full items-center gap-4">
           <div className="flex flex-col space-y-1.5">
             <Label htmlFor="username">Username</Label>
-            <Input
+            <FormInput
               id="username"
-              type="text"
+              name="username"
+              placeholder="username"
+              control={control}
               autoComplete="off"
-              placeholder="Username"
-              errors={errors}
-              {...register("username")}
             />
           </div>
           <div className="flex flex-col space-y-1.5">
             <Label htmlFor="password">Password</Label>
-            <Input
+            <FormInput
               id="password"
-              type="password"
+              name="password"
+              placeholder="*****"
+              control={control}
               autoComplete="off"
-              placeholder="Password"
-              errors={errors}
-              {...register("password")}
             />
           </div>
         </div>

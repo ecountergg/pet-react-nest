@@ -4,7 +4,7 @@ import { yupResolver } from "@hookform/resolvers/yup";
 
 import { Button } from "@/components/atoms/button/button";
 import { CardContent, CardFooter } from "@/components/atoms/card/card";
-import { Input } from "@/components/atoms/input/input";
+import { FormInput } from "@/components/atoms/input/input";
 import { Label } from "@/components/atoms/label/label";
 import { IAuthorPayload } from "@/services/author/create.post";
 import { useAuthorPost } from "@/hooks/author/mutations/use-author-post.mutation";
@@ -20,12 +20,7 @@ const schema = yup.object().shape({
 
 export const AuthorForm = () => {
   const { id } = useParams();
-  const {
-    register,
-    handleSubmit,
-    setValue,
-    formState: { errors },
-  } = useForm<IAuthorPayload>({
+  const { control, handleSubmit, setValue } = useForm<IAuthorPayload>({
     resolver: yupResolver(schema),
   });
   const navigate = useNavigate();
@@ -76,11 +71,11 @@ export const AuthorForm = () => {
         <div className="grid w-full items-center gap-4">
           <div className="flex flex-col space-y-1.5">
             <Label htmlFor="name">Name</Label>
-            <Input
-              {...register("name")}
+            <FormInput
               id="name"
-              placeholder="john doe"
-              errors={errors}
+              name="name"
+              placeholder="John Doe"
+              control={control}
             />
           </div>
         </div>

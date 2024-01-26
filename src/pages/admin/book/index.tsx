@@ -61,8 +61,8 @@ const columns: ColumnDef<IBookResponse>[] = [
 
       return (
         <div className="flex gap-x-2">
-          {book.categories.map((category) => {
-            return <Badge>{category}</Badge>;
+          {book.categories.map((category, index) => {
+            return <Badge key={`category-${index}`}>{category}</Badge>;
           })}
         </div>
       );

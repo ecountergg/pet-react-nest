@@ -19,6 +19,7 @@ const FormSelect = <
   children,
   control,
   name,
+  defaultValue,
   ...props
 }: UseControllerProps<TFieldValues, TName> &
   React.ComponentPropsWithoutRef<typeof SelectPrimitive.Root>) => {
@@ -28,6 +29,7 @@ const FormSelect = <
   } = useController({
     name,
     control,
+    defaultValue,
   });
   return (
     <SelectPrimitive.Root {...props} value={value} onValueChange={onChange}>
