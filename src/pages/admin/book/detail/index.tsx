@@ -98,10 +98,6 @@ export const AdminBookDetail = () => {
                 <p className="font-semibold">Updated At</p>
                 {bookDetail?.data.updated_at}
               </div>
-              <div className="block">
-                <p className="font-semibold">Deleted At:</p>
-                {bookDetail?.data.deleted_at}
-              </div>
             </div>
           </CardContent>
         </Card>

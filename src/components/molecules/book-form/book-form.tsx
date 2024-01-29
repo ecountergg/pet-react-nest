@@ -52,7 +52,7 @@ export const BookForm = () => {
 
   const { mutate: mutateCreate, isPending: isPendingCreate } = useBookPost({
     onSuccess: () => {
-      navigate("/admin/master-data/book");
+      handleCancel();
 
       toast({
         title: "Success!",
@@ -63,7 +63,7 @@ export const BookForm = () => {
   });
   const { mutate: mutateUpdate, isPending: isPendingUpdate } = useBookPut({
     onSuccess: () => {
-      navigate("/admin/master-data/book");
+      handleCancel();
 
       toast({
         title: "Success!",
@@ -109,6 +109,13 @@ export const BookForm = () => {
 
     return mutateCreate(mapPayload);
   };
+
+  const handleCancel = () => {
+    if (id) return navigate(`/admin/master-data/book/${id}/detail`);
+
+    return navigate("/admin/master-data/book");
+  };
+
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
       <CardContent>
@@ -175,6 +182,7 @@ export const BookForm = () => {
           type="reset"
           disabled={isPendingCreate || isPendingUpdate}
           variant="outline"
+          onClick={() => handleCancel}
         >
           Cancel
         </Button>

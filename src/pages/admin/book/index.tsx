@@ -72,10 +72,6 @@ const columns: ColumnDef<IBookResponse>[] = [
     accessorKey: "updated_at",
     header: "Updated At",
   },
-  {
-    accessorKey: "deleted_at",
-    header: "Deleted At",
-  },
   // {
   //   id: "actions",
   //   cell: () => {

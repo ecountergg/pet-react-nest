@@ -79,10 +79,6 @@ export const AdminAuthorDetail = () => {
                 <p className="font-semibold">Updated At</p>
                 {authorDetail?.data.updated_at}
               </div>
-              <div className="block">
-                <p className="font-semibold">Deleted At:</p>
-                {authorDetail?.data.deleted_at}
-              </div>
             </div>
           </CardContent>
         </Card>

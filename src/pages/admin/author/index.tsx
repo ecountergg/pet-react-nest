@@ -52,10 +52,6 @@ const columns: ColumnDef<IAuthorResponse>[] = [
     accessorKey: "updated_at",
     header: "Updated At",
   },
-  {
-    accessorKey: "deleted_at",
-    header: "Deleted At",
-  },
   // {
   //   id: "actions",
   //   cell: () => {
@@ -87,6 +83,7 @@ export function AdminAuthorIndex() {
   const { filter, setFilter, data: authors } = useAuthorGet();
   const [value, setValue] = useState<string | undefined>(undefined);
   const debouncedValue = useDebounce<string>(value!, 500);
+  // const [confirmDelete, setConfirmDelete] = useState(false);
 
   const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
     setValue(event.target.value);
