@@ -81,6 +81,7 @@ export const LoginForm = ({ className }: ILoginFormProps) => {
             <FormInput
               id="password"
               name="password"
+              type="password"
               placeholder="*****"
               control={control}
               autoComplete="off"

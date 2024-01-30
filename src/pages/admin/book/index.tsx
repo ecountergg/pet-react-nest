@@ -48,10 +48,12 @@ const columns: ColumnDef<IBookResponse>[] = [
   {
     accessorKey: "author_name",
     header: "Author Name",
+    enableSorting: false,
   },
   {
     accessorKey: "publisher_name",
     header: "Publisher Name",
+    enableSorting: false,
   },
   {
     accessorKey: "categories",
@@ -61,12 +63,13 @@ const columns: ColumnDef<IBookResponse>[] = [
 
       return (
         <div className="flex gap-x-2">
-          {book.categories.map((category, index) => {
-            return <Badge key={`category-${index}`}>{category}</Badge>;
+          {book.categories.map((category) => {
+            return <Badge key={`category-${category}`}>{category}</Badge>;
           })}
         </div>
       );
     },
+    enableSorting: false,
   },
   {
     accessorKey: "updated_at",
