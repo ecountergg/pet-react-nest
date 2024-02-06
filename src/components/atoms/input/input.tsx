@@ -6,7 +6,7 @@ import {
   useController,
 } from "react-hook-form";
 
-import { cn } from "@/lib/cva.utils";
+import { cn } from "@/lib/cva.lib";
 import { VariantProps, cva } from "class-variance-authority";
 
 const inputVariants = cva(

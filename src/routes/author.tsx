@@ -2,7 +2,7 @@ import { RouteObject } from "react-router-dom";
 
 import AuthGuard from "@/guards/auth.guard";
 import { AdminAuthorIndex } from "@/pages/admin/author";
-import { AdminAuthorEdit } from "@/pages/admin/author/Edit";
+import { AdminAuthorEdit } from "@/pages/admin/author/edit";
 import { AdminAuthorCreate } from "@/pages/admin/author/create";
 import { AdminAuthorDetail } from "@/pages/admin/author/detail";
 

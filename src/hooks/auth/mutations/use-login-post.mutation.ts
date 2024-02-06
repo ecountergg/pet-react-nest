@@ -1,6 +1,6 @@
 import { useMutation } from "@tanstack/react-query";
 
-import { UseCustomMutationOptions } from "@/lib/react-query";
+import { UseCustomMutationOptions } from "@/lib/react-query.lib";
 import {
   ILoginPayload,
   ILoginResponse,

@@ -2,7 +2,7 @@ import { RouteObject } from "react-router-dom";
 
 import AuthGuard from "@/guards/auth.guard";
 import { AdminBookIndex } from "@/pages/admin/book";
-import { AdminBookEdit } from "@/pages/admin/book/Edit";
+import { AdminBookEdit } from "@/pages/admin/book/edit";
 import { AdminBookCreate } from "@/pages/admin/book/create";
 import { AdminBookDetail } from "@/pages/admin/book/detail";
 

@@ -40,7 +40,7 @@ const columns: ColumnDef<IBookResponse>[] = [
           className="text-md font-semibold"
           to={`/admin/master-data/book/${book.id}/detail`}
         >
-          {book.name}
+          {book.title}
         </Link>
       );
     },

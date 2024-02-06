@@ -4,7 +4,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { Button } from "@/components/atoms/button/button";
 import { ChevronRight } from "lucide-react";
 import { SideNav } from "./side-nav";
-import { cn } from "@/lib/cva.utils";
+import { cn } from "@/lib/cva.lib";
 import { RootState } from "@/stores/index.store";
 import { setIsOpen } from "@/stores/sidebar.store";
 import { Separator } from "@/components/atoms/separator/separator";

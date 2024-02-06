@@ -22,6 +22,7 @@ import {
 import { Button } from "@/components/atoms/button/button";
 import { useAuthorDelete } from "@/hooks/author/mutations/use-author-delete.mutation";
 import { useToast } from "@/components/atoms/toast/use-toast";
+import { formatDate } from "@/utils/date.util";
 
 export const AdminAuthorDetail = () => {
   const { id } = useParams();
@@ -29,9 +30,8 @@ export const AdminAuthorDetail = () => {
   const { toast } = useToast();
   const [open, setOpen] = useState(false);
 
-  const { data: authorDetail } = useAuthorDetailGet(id!, {
-    enabled: !!id,
-  });
+  const { data: authorDetail } = useAuthorDetailGet(id!);
+
   const { mutate: mutateDeleteAuthor, isPending: isPendingDeleteAuthor } =
     useAuthorDelete({
       onSuccess: () => {
@@ -54,11 +54,13 @@ export const AdminAuthorDetail = () => {
             <CardTitle>Author - Detail</CardTitle>
             <div className="flex gap-x-4">
               <Trash
+                type="button"
                 className="text-red-600"
                 role="button"
                 onClick={() => setOpen(true)}
               />
               <Edit
+                type="button"
                 className="text-green-600"
                 role="button"
                 onClick={() => navigate(`/admin/master-data/author/${id}/edit`)}
@@ -72,12 +74,20 @@ export const AdminAuthorDetail = () => {
                 {authorDetail?.data.name}
               </div>
               <div className="block">
+                <p className="font-semibold">Birth Year:</p>
+                {authorDetail?.data.birth_year}
+              </div>
+              <div className="block">
+                <p className="font-semibold">Bio:</p>
+                {authorDetail?.data.bio}
+              </div>
+              <div className="block">
                 <p className="font-semibold">Created At</p>
-                {authorDetail?.data.created_at}
+                {formatDate(authorDetail?.data.created_at)}
               </div>
               <div className="block">
                 <p className="font-semibold">Updated At</p>
-                {authorDetail?.data.updated_at}
+                {formatDate(authorDetail?.data.updated_at)}
               </div>
             </div>
           </CardContent>

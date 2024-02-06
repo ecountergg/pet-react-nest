@@ -13,15 +13,21 @@ import { useToast } from "@/components/atoms/toast/use-toast";
 import { useAuthorDetailGet } from "@/hooks/author/queries/use-author-detail-get.query";
 import { useEffect } from "react";
 import { useAuthorPut } from "@/hooks/author/mutations/use-author-put.mutation";
+import { FormTextarea } from "@/components/atoms/textarea/textarea";
 
 const schema = yup.object().shape({
-  name: yup.string().required("Author Name is a required field"),
+  name: yup.string().required().label("Author Name"),
+  birth_year: yup.string().min(4).max(4).label("Birth Year"),
+  bio: yup.string(),
 });
 
 export const AuthorForm = () => {
   const { id } = useParams();
   const { control, handleSubmit, setValue } = useForm<IAuthorPayload>({
     resolver: yupResolver(schema),
+    defaultValues: {
+      bio: "",
+    },
   });
   const navigate = useNavigate();
   const { toast } = useToast();
@@ -74,6 +80,26 @@ export const AuthorForm = () => {
             <FormInput
               id="name"
               name="name"
+              placeholder="John Doe"
+              control={control}
+            />
+          </div>
+          <div className="flex flex-col space-y-1.5">
+            <Label htmlFor="birth_year">Birth Year</Label>
+            <FormInput
+              id="birth_year"
+              name="birth_year"
+              placeholder="1996"
+              control={control}
+              minLength={4}
+              maxLength={4}
+            />
+          </div>
+          <div className="flex flex-col space-y-1.5">
+            <Label htmlFor="bio">Bio</Label>
+            <FormTextarea
+              id="bio"
+              name="bio"
               placeholder="John Doe"
               control={control}
             />

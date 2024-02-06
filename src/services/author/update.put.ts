@@ -1,4 +1,4 @@
-import { $http } from "@/lib/http";
+import { $http } from "@/lib/http.lib";
 import { GenericResponse } from "@/types/response.type";
 import { IAuthorResponse } from "./list.get";
 import { IAuthorPayload } from "./create.post";

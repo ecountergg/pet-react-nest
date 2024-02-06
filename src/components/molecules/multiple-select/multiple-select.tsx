@@ -14,7 +14,7 @@ import {
 } from "@/components/atoms/command/command";
 import { Command as CommandPrimitive } from "cmdk";
 import { Badge } from "@/components/atoms/badge/badge";
-import { cn } from "@/lib/cva.utils";
+import { cn } from "@/lib/cva.lib";
 import { useDebounce } from "@/hooks";
 
 export interface Option {

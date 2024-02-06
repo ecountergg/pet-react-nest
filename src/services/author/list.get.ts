@@ -1,4 +1,5 @@
-import { $http } from "@/lib/http";
+import { IBaseResponse } from "@/interfaces/base-response.interface";
+import { $http } from "@/lib/http.lib";
 import { PaginationFilter } from "@/types/request.type";
 import { GenericResponse, PaginationResponse } from "@/types/response.type";
 
@@ -6,12 +7,10 @@ export interface IParamsAuthor {
   name?: string;
 }
 
-export interface IAuthorResponse {
-  id: string;
+export interface IAuthorResponse extends IBaseResponse {
   name: string;
-  created_at: string;
-  deleted_at: string;
-  updated_at: string;
+  bio: string | null;
+  birth_year: number | null;
 }
 
 export type AuthorFilter = PaginationFilter<IParamsAuthor>;

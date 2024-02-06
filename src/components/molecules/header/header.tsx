@@ -1,7 +1,7 @@
 import { MobileSidebar } from "@/components/molecules/mobile-sidebar/mobile-sidebar";
 import { Boxes } from "lucide-react";
 import { Link } from "react-router-dom";
-import { cn } from "@/lib/cva.utils";
+import { cn } from "@/lib/cva.lib";
 import { Button } from "@/components/atoms/button/button";
 
 export default function Header() {

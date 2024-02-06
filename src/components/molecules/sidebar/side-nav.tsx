@@ -5,7 +5,7 @@ import { RootState } from "@/stores/index.store";
 import { ChevronDownIcon } from "lucide-react";
 
 import { NavItem } from "@/types/nav-item.type";
-import { cn } from "@/lib/cva.utils";
+import { cn } from "@/lib/cva.lib";
 
 import {
   Accordion,

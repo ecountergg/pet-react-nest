@@ -1,6 +1,6 @@
 import * as React from "react";
 
-import { cn } from "@/lib/cva.utils";
+import { cn } from "@/lib/cva.lib";
 
 const Table = React.forwardRef<
   HTMLTableElement,

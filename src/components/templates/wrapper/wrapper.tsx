@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 import { Provider } from "react-redux";
 
 import { useToast } from "@/components/atoms/toast/use-toast";
-import { $http } from "@/lib/http";
+import { $http } from "@/lib/http.lib";
 import { ErrorResponse } from "@/types/response.type";
 import { Toaster } from "@/components/atoms/toast/toaster";
 import { store } from "@/stores/index.store";

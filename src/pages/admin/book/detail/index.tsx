@@ -30,9 +30,7 @@ export const AdminBookDetail = () => {
   const { toast } = useToast();
   const [open, setOpen] = useState(false);
 
-  const { data: bookDetail } = useBookDetailGet(id!, {
-    enabled: !!id,
-  });
+  const { data: bookDetail } = useBookDetailGet(id!);
   const { mutate: mutateDeleteBook, isPending: isPendingDeleteBook } =
     useBookDelete({
       onSuccess: () => {
@@ -69,8 +67,8 @@ export const AdminBookDetail = () => {
           <CardContent>
             <div className="grid grid-cols-4 gap-4">
               <div className="block">
-                <p className="font-semibold">Name:</p>
-                {bookDetail?.data.name}
+                <p className="font-semibold">Title:</p>
+                {bookDetail?.data.title}
               </div>
               <div className="block">
                 <p className="font-semibold">Author Name:</p>
@@ -106,8 +104,8 @@ export const AdminBookDetail = () => {
             <DialogHeader>
               <DialogTitle>Are you sure want to delete?</DialogTitle>
               <DialogDescription>
-                You are about to delete {bookDetail?.data.name} from the system.
-                This process is irreversible. Proceed?
+                You are about to delete {bookDetail?.data.title} from the
+                system. This process is irreversible. Proceed?
               </DialogDescription>
             </DialogHeader>
 

@@ -1,6 +1,6 @@
 import { useMutation } from "@tanstack/react-query";
 
-import { UseCustomMutationOptions } from "@/lib/react-query";
+import { UseCustomMutationOptions } from "@/lib/react-query.lib";
 import { IBookResponse } from "@/services/book/list.get";
 import { bookPut } from "@/services/book/update.put";
 import { IBookPayload } from "@/services/book/create.post";

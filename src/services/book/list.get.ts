@@ -1,4 +1,5 @@
-import { $http } from "@/lib/http";
+import { IBaseResponse } from "@/interfaces/base-response.interface";
+import { $http } from "@/lib/http.lib";
 import { PaginationFilter } from "@/types/request.type";
 import { GenericResponse, PaginationResponse } from "@/types/response.type";
 
@@ -6,15 +7,15 @@ export interface IParamsBook {
   name?: string;
 }
 
-export interface IBookResponse {
-  id: string;
-  name: string;
+export interface IBookResponse extends IBaseResponse {
+  title: string;
+  description: string;
+  isbn: string;
+  page_count: number;
+  price: number;
   author_name: string;
   publisher_name: string;
   categories: string[];
-  created_at: string;
-  deleted_at: string;
-  updated_at: string;
 }
 
 export type BookFilter = PaginationFilter<IParamsBook>;

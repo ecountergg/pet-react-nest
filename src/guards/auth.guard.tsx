@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
 
-import { $http } from "@/lib/http";
+import { $http } from "@/lib/http.lib";
 
 const AuthGuard = ({ children }: React.PropsWithChildren) => {
   useEffect(() => {

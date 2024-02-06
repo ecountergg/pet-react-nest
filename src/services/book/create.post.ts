@@ -1,9 +1,13 @@
-import { $http } from "@/lib/http";
+import { $http } from "@/lib/http.lib";
 import { GenericResponse } from "@/types/response.type";
 import { IBookResponse } from "./list.get";
 
 export interface IBookPayload {
-  name: string;
+  title: string;
+  description: string;
+  isbn: string;
+  page_count: number;
+  price: number;
   author_id: string;
   publisher_id: string;
   category_ids: string[];

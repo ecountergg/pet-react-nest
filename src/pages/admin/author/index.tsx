@@ -27,6 +27,7 @@ import { DataTable } from "@/components/atoms/data-table/data-table";
 import { PaginationMetaResponse } from "@/types/response.type";
 import { Input } from "@/components/atoms/input/input";
 import { useDebounce } from "@/hooks";
+import { formatDate } from "@/utils/date.util";
 
 const columns: ColumnDef<IAuthorResponse>[] = [
   {
@@ -45,12 +46,24 @@ const columns: ColumnDef<IAuthorResponse>[] = [
     },
   },
   {
+    accessorKey: "birth_year",
+    header: "Birth Year",
+  },
+  {
     accessorKey: "created_at",
     header: "Created At",
+    cell: ({ row }) => {
+      const author = row.original;
+      return formatDate(author.created_at);
+    },
   },
   {
     accessorKey: "updated_at",
     header: "Updated At",
+    cell: ({ row }) => {
+      const author = row.original;
+      return formatDate(author.updated_at);
+    },
   },
   // {
   //   id: "actions",
